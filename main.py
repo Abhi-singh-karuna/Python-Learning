@@ -1,5 +1,3 @@
-#  craete crud operation in buffer on student by using fastapi without databse CRUD [create, read, update, delete] and add collection on postman in single file 
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict
@@ -19,7 +17,17 @@ class Student(BaseModel):
 def create_student(student: Student):
     if student.id in students:
         raise HTTPException(status_code=400, detail="Student ID already exists")
+    # print(student.dict()['name'])
+    existing_names = [a["name"] for a in students.values()]
+    print(f"-----------------{existing_names}")
+    if student.name in existing_names:
+        raise HTTPException(status_code=400, detail="Student name already exists")
+    # print(students)
     students[student.id] = student.dict()
+    # print(students)
+    print(student.dict()['name'])
+    
+    
     return student
 
 @app.get("/students/{student_id}", response_model=Student)
@@ -47,6 +55,12 @@ def delete_student(student_id: int):
         raise HTTPException(status_code=404, detail="Student not found")
     del students[student_id]
     return {"message": f"Student with id {student_id} deleted"}
+
+# 👇 This makes it executable with `python main.py`
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
 
 
 
