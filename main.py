@@ -75,7 +75,7 @@ def delete_student(student_id: int):
 # @app.on_event("startup")
 # async def startup_event():
 #     try:
-#         metadata.create_all(bind=engine)
+#         metadata.create_all(bind=engine)www
 #         logger.info("Tables created successfully.")
 #     except Exception as e:
 #         logger.error("Failed to create tables!", exc_info=True)
